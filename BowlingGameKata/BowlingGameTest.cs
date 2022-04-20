@@ -44,10 +44,48 @@ public class BowlingGameTest
     [Fact]
     public void TestOneStrike()
     {
-        _game.Roll(10);
+        RollStrike();
         _game.Roll(5);
         _game.Roll(8);
 
         Assert.Equal(36, _game.Score());
     }
+
+    [Fact]
+    public void TestTenthFrameStrike()
+    {
+        RollMany(18, 1);
+        RollStrike();
+        _game.Roll(2);
+        _game.Roll(3);
+
+
+        Assert.Equal(33, _game.Score());
+    }
+
+    private void RollStrike()
+    {
+        _game.Roll(10);
+    }
+
+    [Fact]
+    public void TestTenthFrameSpare()
+    {
+        RollMany(18, 1);
+        _game.Roll(5);
+        _game.Roll(5);
+        _game.Roll(3);
+
+
+        Assert.Equal(31, _game.Score());
+    }
+
+    [Fact]
+    public void TestPerfectGame()
+    {
+        RollMany(12, 10);
+
+        Assert.Equal(300, _game.Score());
+    }
+
 }

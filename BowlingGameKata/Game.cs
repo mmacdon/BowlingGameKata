@@ -1,10 +1,8 @@
-﻿using System.Linq;
-
-namespace BowlingGameKata;
+﻿namespace BowlingGameKata;
 public class Game
 {
     private int _currentRoll = 0;
-    private int[] _rolls = new int[20];
+    private int[] _rolls = new int[21];
 
     public void Roll(int pins)
     {
@@ -19,21 +17,36 @@ public class Game
         {
             if(IsStrike(rollIndex))
             {
-                _score += 10 + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+                _score += 10 + StrikeBonus(rollIndex);
                 rollIndex++;
             }
             else if (IsSpare(rollIndex))
             {
-                _score += 10 + _rolls[rollIndex + 2];
+                _score += 10 + SpareBonus(rollIndex);
                 rollIndex += 2;
             }
             else
             {
-                _score += _rolls[rollIndex] + _rolls[rollIndex + 1];
+                _score += FrameScore(rollIndex);
                 rollIndex += 2;
             }
         }
         return _score;       
+    }
+
+    private int FrameScore(int rollIndex)
+    {
+        return _rolls[rollIndex] + _rolls[rollIndex + 1];
+    }
+
+    private int SpareBonus(int rollIndex)
+    {
+        return _rolls[rollIndex + 2];
+    }
+
+    private int StrikeBonus(int rollIndex)
+    {
+        return _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
     }
 
     private bool IsStrike(int rollIndex)
